@@ -25,6 +25,9 @@ dependencies = [
     # ---- phase-03: embeddings & similarity ------------------------------------
     "fastembed>=0.3.6",
     "numpy>=1.26",
+    # ---- phase-04: ingestion & chunking ---------------------------------------
+    "langchain-text-splitters>=0.3.0",
+    "pypdf>=4.2",
 ]
 
 [project.optional-dependencies]

@@ -78,6 +78,26 @@ def plan(
 
 
 @app.command()
+def ingest() -> None:
+    """Load + chunk the knowledge base and report stats (Phase 04)."""
+    from ai_research_agent.config import get_settings
+    from ai_research_agent.ingestion import chunk_documents, load_directory
+
+    settings = get_settings()
+    documents = load_directory(settings.knowledge_dir)
+    chunks = chunk_documents(documents)
+    console.print(
+        f"Loaded [bold]{len(documents)}[/] documents from "
+        f"[cyan]{settings.knowledge_dir}[/] → [bold]{len(chunks)}[/] chunks."
+    )
+    by_source: dict[str, int] = {}
+    for c in chunks:
+        by_source[c.metadata["source"]] = by_source.get(c.metadata["source"], 0) + 1
+    for source, count in sorted(by_source.items()):
+        console.print(f"  {source}: {count} chunks")
+
+
+@app.command()
 def doctor() -> None:
     """Show resolved configuration and which live services are available.
 

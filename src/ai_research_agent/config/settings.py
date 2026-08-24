@@ -83,7 +83,7 @@ class Settings(BaseSettings):
 
     # ---- Retrieval paths ----------------------------------------------------
     vectorstore_dir: Path = Field(default=REPO_ROOT / "data" / "vectorstore")
-    knowledge_dir: Path = Field(default=REPO_ROOT / "data" / "raw")
+    knowledge_dir: Path = Field(default=REPO_ROOT / "data" / "knowledge")
 
     # ---- Runtime ------------------------------------------------------------
     request_timeout_seconds: int = 60
