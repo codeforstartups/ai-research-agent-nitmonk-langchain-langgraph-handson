@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import pytest
+from mcp import Client
 
 from ai_research_agent.mcp.servers.web_research import (
     ThordataClient,
     build_web_research_server,
 )
 from ai_research_agent.mcp.servers.web_research.server import UNTRUSTED_BANNER
-from mcp import Client
 
 
 @pytest.fixture

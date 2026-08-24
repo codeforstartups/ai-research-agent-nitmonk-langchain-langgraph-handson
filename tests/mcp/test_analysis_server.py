@@ -7,9 +7,9 @@ no ports — so server tests are fast and hermetic.
 from __future__ import annotations
 
 import pytest
+from mcp import Client
 
 from ai_research_agent.mcp.servers import build_analysis_server
-from mcp import Client
 
 
 @pytest.fixture
