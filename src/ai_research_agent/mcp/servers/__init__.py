@@ -9,5 +9,6 @@ that can be run over stdio/HTTP *or* connected in-memory for tests.
 """
 
 from ai_research_agent.mcp.servers.analysis import build_analysis_server
+from ai_research_agent.mcp.servers.web_research import build_web_research_server
 
-__all__ = ["build_analysis_server"]
+__all__ = ["build_analysis_server", "build_web_research_server"]
