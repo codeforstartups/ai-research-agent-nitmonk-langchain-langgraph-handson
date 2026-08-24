@@ -43,6 +43,9 @@ dependencies = [
     # ---- phase-13: web research mcp (Thordata) --------------------------------
     "httpx>=0.27",
     "tenacity>=8.3",
+    # ---- phase-18: langgraph orchestration ------------------------------------
+    "langgraph>=0.2.0",
+    "grandalf>=0.8",  # ASCII graph rendering for the demos
 ]
 
 [project.optional-dependencies]
