@@ -79,22 +79,37 @@ def plan(
 
 @app.command()
 def ingest() -> None:
-    """Load + chunk the knowledge base and report stats (Phase 04)."""
+    """Load, chunk, and index the knowledge base into the vector store (Phase 05)."""
     from ai_research_agent.config import get_settings
-    from ai_research_agent.ingestion import chunk_documents, load_directory
+    from ai_research_agent.retrieval import index_knowledge_base
 
     settings = get_settings()
-    documents = load_directory(settings.knowledge_dir)
-    chunks = chunk_documents(documents)
+    num_docs, num_chunks = index_knowledge_base()
     console.print(
-        f"Loaded [bold]{len(documents)}[/] documents from "
-        f"[cyan]{settings.knowledge_dir}[/] → [bold]{len(chunks)}[/] chunks."
+        f"Indexed [bold]{num_docs}[/] documents → [bold]{num_chunks}[/] chunks into "
+        f"[cyan]{settings.vectorstore_dir}[/] ✓"
     )
-    by_source: dict[str, int] = {}
-    for c in chunks:
-        by_source[c.metadata["source"]] = by_source.get(c.metadata["source"], 0) + 1
-    for source, count in sorted(by_source.items()):
-        console.print(f"  {source}: {count} chunks")
+
+
+@app.command()
+def search(
+    query: str = typer.Argument(..., help="Query to run against the vector store."),
+    k: int = typer.Option(4, "--k", help="Number of chunks to return."),
+) -> None:
+    """Semantic search over the indexed knowledge base (Phase 05)."""
+    from ai_research_agent.retrieval import get_retriever, load_vectorstore
+
+    store = load_vectorstore()
+    retriever = get_retriever(store, k=k)
+    results = retriever.invoke(query)
+    if not results:
+        console.print("[yellow]No results. Did you run 'research-agent ingest'?[/]")
+        return
+    for i, doc in enumerate(results, 1):
+        meta = doc.metadata
+        cite = f"{meta.get('source', '?')}#{meta.get('chunk', '?')}"
+        console.print(f"[bold]{i}. [cyan]{cite}[/][/]")
+        console.print(f"   {doc.page_content[:200].strip()}…\n")
 
 
 @app.command()

@@ -28,6 +28,9 @@ dependencies = [
     # ---- phase-04: ingestion & chunking ---------------------------------------
     "langchain-text-splitters>=0.3.0",
     "pypdf>=4.2",
+    # ---- phase-05: vector store -----------------------------------------------
+    "langchain-chroma>=0.1.4",
+    "chromadb>=0.5.0",
 ]
 
 [project.optional-dependencies]
