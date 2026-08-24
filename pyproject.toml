@@ -1,0 +1,58 @@
+[project]
+name = "ai-research-agent"
+version = "0.1.0"
+description = "AI Research & Analysis Agent — a phase-by-phase teaching repository for the modern LangChain / LangGraph / MCP / Deep Agents ecosystem."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "AI Agent Engineering Course" }]
+
+# ---------------------------------------------------------------------------
+# Dependencies are added PHASE BY PHASE. Every phase's commit shows exactly
+# which libraries that concept introduces, so each git tag stays runnable on
+# its own. Phase 00 only needs configuration + CLI plumbing.
+# ---------------------------------------------------------------------------
+dependencies = [
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "rich>=13.7",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+research-agent = "ai_research_agent.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_research_agent"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4"]
+ignore = ["E501"]  # line length handled by formatter
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.10"
+packages = ["ai_research_agent"]
+ignore_missing_imports = true

@@ -1,0 +1,43 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ---- Virtual envs / uv ----
+.venv/
+venv/
+env/
+
+# ---- Secrets ----
+.env
+.env.local
+*.key
+
+# ---- Data & models (kept out of git; .gitkeep preserves folders) ----
+data/raw/*
+data/processed/*
+data/vectorstore/*
+!data/**/.gitkeep
+
+# ---- Model caches downloaded at runtime (fastembed / flashrank / hf) ----
+.cache/
+models_cache/
+
+# ---- Observability / eval outputs ----
+evals/reports/*
+!evals/reports/.gitkeep
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
