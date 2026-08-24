@@ -31,6 +31,8 @@ dependencies = [
     # ---- phase-05: vector store -----------------------------------------------
     "langchain-chroma>=0.1.4",
     "chromadb>=0.5.0",
+    # ---- phase-07: bm25 sparse retrieval --------------------------------------
+    "rank-bm25>=0.2.2",
 ]
 
 [project.optional-dependencies]
