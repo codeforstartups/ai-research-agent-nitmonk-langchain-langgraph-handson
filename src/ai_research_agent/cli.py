@@ -55,6 +55,29 @@ def ask(
 
 
 @app.command()
+def plan(
+    question: str = typer.Argument(..., help="A complex research question to decompose."),
+) -> None:
+    """Produce a typed ResearchPlan from a question (Phase 02)."""
+    from langchain_core.messages import HumanMessage, SystemMessage
+
+    from ai_research_agent.models import get_chat_model, get_structured_response
+    from ai_research_agent.schemas import ResearchPlan
+
+    model = get_chat_model()
+    messages = [
+        SystemMessage(
+            "You are a research planner. Decompose the question into 3–6 focused "
+            "sub-questions and mark which need live web data."
+        ),
+        HumanMessage(question),
+    ]
+    result = get_structured_response(model, ResearchPlan, messages)
+    for line in result.as_lines():
+        console.print(line)
+
+
+@app.command()
 def doctor() -> None:
     """Show resolved configuration and which live services are available.
 
