@@ -31,6 +31,16 @@ class OfflineChatModel(SimpleChatModel):
     def _llm_type(self) -> str:
         return "offline-echo"
 
+    def bind_tools(self, tools, **kwargs):  # noqa: ANN001, ANN003
+        """Accept tools but ignore them.
+
+        The offline stub can't perform real tool calling, but agent code binds
+        tools unconditionally — so we accept the call and simply return a model
+        that produces no tool calls, letting the loop fall through to a text
+        answer instead of raising ``NotImplementedError``.
+        """
+        return self
+
     def _last_human_text(self, messages: list[BaseMessage]) -> str:
         for message in reversed(messages):
             if isinstance(message, HumanMessage):
