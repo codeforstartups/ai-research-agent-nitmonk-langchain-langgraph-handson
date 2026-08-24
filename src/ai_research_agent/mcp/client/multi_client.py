@@ -77,11 +77,13 @@ class MultiMCPClient:
         for server_name, client in self._clients.items():
             listing = await client.list_tools()
             for tool in listing.tools:
+                # MCP SDK v2 exposes the JSON schema as `input_schema` (snake).
+                schema = getattr(tool, "input_schema", None) or getattr(tool, "inputSchema", {})
                 discovered = DiscoveredTool(
                     server=server_name,
                     name=tool.name,
                     description=tool.description or "",
-                    input_schema=getattr(tool, "inputSchema", {}) or {},
+                    input_schema=schema or {},
                 )
                 self._tool_index[discovered.qualified_name] = discovered
 
