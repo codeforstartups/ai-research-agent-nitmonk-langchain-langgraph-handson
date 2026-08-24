@@ -12,6 +12,7 @@ from __future__ import annotations
 import operator
 from typing import Annotated, TypedDict
 
+from ai_research_agent.schemas.agents import Finding, Verdict
 from ai_research_agent.schemas.research import ResearchPlan
 
 
@@ -30,3 +31,6 @@ class ResearchState(TypedDict, total=False):
     # Human-in-the-loop (phase 20).
     approved: bool
     human_feedback: str
+    # Multi-agent (phase 22-23): specialists append findings; the checker judges.
+    findings: Annotated[list[Finding], operator.add]
+    verdict: Verdict
