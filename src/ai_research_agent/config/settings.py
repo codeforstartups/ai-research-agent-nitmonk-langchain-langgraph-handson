@@ -14,7 +14,7 @@ touching business logic.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from functools import lru_cache
 from pathlib import Path
 
@@ -26,7 +26,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
-class LLMProvider(str, Enum):
+class LLMProvider(StrEnum):
     """Supported chat-model providers."""
 
     ANTHROPIC = "anthropic"
@@ -34,7 +34,7 @@ class LLMProvider(str, Enum):
     GOOGLE = "google"
 
 
-class EmbeddingsProvider(str, Enum):
+class EmbeddingsProvider(StrEnum):
     """Supported embeddings providers.
 
     ``fastembed`` runs locally (ONNX) with no API key, which keeps the RAG
