@@ -113,6 +113,22 @@ def search(
 
 
 @app.command()
+def rag(
+    question: str = typer.Argument(..., help="Question to answer from the knowledge base."),
+    k: int = typer.Option(4, "--k", help="Chunks to retrieve as evidence."),
+) -> None:
+    """Answer a question with grounded, cited RAG (Phase 06)."""
+    from ai_research_agent.retrieval import answer_question
+
+    result = answer_question(question, k=k)
+    console.rule("[bold]Answer[/]")
+    console.print(result["answer"])
+    console.rule("[bold]Sources[/]")
+    for doc in result["sources"]:
+        console.print(f"  - {doc.metadata.get('source')}#{doc.metadata.get('chunk')}")
+
+
+@app.command()
 def doctor() -> None:
     """Show resolved configuration and which live services are available.
 
