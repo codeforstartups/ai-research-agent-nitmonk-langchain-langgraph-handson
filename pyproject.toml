@@ -33,6 +33,8 @@ dependencies = [
     "chromadb>=0.5.0",
     # ---- phase-07: bm25 sparse retrieval --------------------------------------
     "rank-bm25>=0.2.2",
+    # ---- phase-09: reranking --------------------------------------------------
+    "flashrank>=0.2.9",
 ]
 
 [project.optional-dependencies]
