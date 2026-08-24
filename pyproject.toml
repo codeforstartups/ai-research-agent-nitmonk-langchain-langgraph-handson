@@ -46,6 +46,8 @@ dependencies = [
     # ---- phase-18: langgraph orchestration ------------------------------------
     "langgraph>=0.2.0",
     "grandalf>=0.8",  # ASCII graph rendering for the demos
+    # ---- phase-20: persistence & human-in-the-loop ----------------------------
+    "langgraph-checkpoint-sqlite>=2.0.0",
 ]
 
 [project.optional-dependencies]

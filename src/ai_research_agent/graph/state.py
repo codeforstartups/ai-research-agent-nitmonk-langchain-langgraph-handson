@@ -27,3 +27,6 @@ class ResearchState(TypedDict, total=False):
     # No reducer: last write wins (a simple counter, incremented in a cycle).
     iterations: int
     answer: str
+    # Human-in-the-loop (phase 20).
+    approved: bool
+    human_feedback: str
