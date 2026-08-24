@@ -38,6 +38,7 @@ dependencies = [
     # ---- phase-10: ragas evaluation -------------------------------------------
     "ragas>=0.2.0",
     "datasets>=2.19",
+    "mcp>=1.2.0",
 ]
 
 [project.optional-dependencies]
