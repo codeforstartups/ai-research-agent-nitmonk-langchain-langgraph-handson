@@ -147,6 +147,36 @@ def rag(
 
 
 @app.command()
+def benchmark(k: int = typer.Option(4, "--k", help="Top-k for each retriever.")) -> None:
+    """Benchmark the 4 retrieval configs against the labeled set (Phase 10, offline)."""
+    from ai_research_agent.evaluation import run_benchmark
+
+    results = run_benchmark(k=k)
+    table = Table(title=f"Retrieval benchmark (k={k})", header_style="bold magenta")
+    table.add_column("Config", style="cyan")
+    table.add_column("hit@k", justify="right")
+    table.add_column("recall@k", justify="right")
+    table.add_column("MRR", justify="right")
+    for name, m in results.items():
+        table.add_row(name, f"{m.hit_rate:.2f}", f"{m.recall:.2f}", f"{m.mrr:.2f}")
+    console.print(table)
+
+
+@app.command()
+def evaluate(k: int = typer.Option(4, "--k", help="Top-k retrieved as context.")) -> None:
+    """Run Ragas answer-quality evaluation (Phase 10, needs an LLM key)."""
+    from ai_research_agent.evaluation import RagasUnavailableError, run_ragas_eval
+
+    try:
+        result = run_ragas_eval(k=k)
+    except RagasUnavailableError as exc:
+        console.print(f"[yellow]{exc}[/]")
+        raise typer.Exit(code=1) from None
+    console.rule("[bold]Ragas scores[/]")
+    console.print(result)
+
+
+@app.command()
 def doctor() -> None:
     """Show resolved configuration and which live services are available.
 

@@ -1,0 +1,50 @@
+{
+  "description": "Labeled QA set over the sample knowledge base (data/knowledge). 'relevant_sources' lists the source files that should be retrieved. Used to benchmark retrieval configurations and as reference data for Ragas.",
+  "items": [
+    {
+      "question": "What do enterprise buyers require before adopting an AI coding agent?",
+      "relevant_sources": ["enterprise_requirements.md"],
+      "ground_truth": "SOC2/ISO27001 compliance, no training on customer code, VPC/on-prem deployment, IP indemnification, SSO/RBAC and audit logs, and human-in-the-loop review before anything touches production."
+    },
+    {
+      "question": "What moats can a new entrant build in the AI coding-agent market?",
+      "relevant_sources": ["risks_and_moats.md"],
+      "ground_truth": "Vertical depth in a domain, proprietary evaluation and reliability tooling, governance and workflow lock-in, and superior context engineering over the customer's codebase."
+    },
+    {
+      "question": "How is the AI coding-agent market segmented?",
+      "relevant_sources": ["market_overview.md"],
+      "ground_truth": "Into inline assistants (autocomplete/chat), agentic IDEs (a plan-apply-test loop over the workspace), and autonomous agents (asynchronous ticket-to-PR systems)."
+    },
+    {
+      "question": "What weaknesses are common across AI coding-agent competitors?",
+      "relevant_sources": ["competitors.md"],
+      "ground_truth": "Overclaiming autonomy relative to real reliability, weak handling of large messy legacy repositories, and thin observability into why an agent made a change."
+    },
+    {
+      "question": "What are the key risks for a startup entering this market?",
+      "relevant_sources": ["risks_and_moats.md"],
+      "ground_truth": "Platform bundling risk from incumbents, model commoditisation eroding thin-wrapper moats, a reliability ceiling that erodes trust, and a heavy enterprise support burden."
+    },
+    {
+      "question": "Which SSO, SCIM and RBAC identity controls do enterprise buyers expect?",
+      "relevant_sources": ["enterprise_requirements.md"],
+      "ground_truth": "SSO and SCIM for provisioning, role-based access control, and per-repo permissions, alongside audit logs of who ran which agent."
+    },
+    {
+      "question": "How do per-seat versus usage-based pricing models affect enterprise budgets?",
+      "relevant_sources": ["pricing_and_gtm.md"],
+      "ground_truth": "Per-seat pricing is predictable but caps upside; usage-based aligns cost to value but makes budgets unpredictable, creating procurement friction. A hybrid platform-fee-plus-usage model is emerging."
+    },
+    {
+      "question": "What role do design-partner programs play in go-to-market?",
+      "relevant_sources": ["pricing_and_gtm.md"],
+      "ground_truth": "They co-develop governance features while doubling as product validation and a source of reference customers."
+    },
+    {
+      "question": "Why is a company that merely wraps a foundation model hard to defend over time?",
+      "relevant_sources": ["risks_and_moats.md"],
+      "ground_truth": "If capability comes mostly from the foundation model, a thin wrapper has no defensible moat and is exposed to commoditisation and incumbent bundling."
+    }
+  ]
+}
