@@ -48,6 +48,7 @@ dependencies = [
     "grandalf>=0.8",  # ASCII graph rendering for the demos
     # ---- phase-20: persistence & human-in-the-loop ----------------------------
     "langgraph-checkpoint-sqlite>=2.0.0",
+    "deepagents>=0.7.8",
 ]
 
 [project.optional-dependencies]
