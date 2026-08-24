@@ -81,8 +81,13 @@ class Settings(BaseSettings):
     langfuse_host: str = "https://cloud.langfuse.com"
     langfuse_enabled: bool = True
 
+    # ---- Vector store (Pinecone, serverless) --------------------------------
+    pinecone_api_key: str | None = None
+    pinecone_index: str = "ai-research-agent"
+    pinecone_cloud: str = "aws"
+    pinecone_region: str = "us-east-1"
+
     # ---- Retrieval paths ----------------------------------------------------
-    vectorstore_dir: Path = Field(default=REPO_ROOT / "data" / "vectorstore")
     knowledge_dir: Path = Field(default=REPO_ROOT / "data" / "knowledge")
 
     # ---- Runtime ------------------------------------------------------------
@@ -105,6 +110,10 @@ class Settings(BaseSettings):
     @property
     def has_thordata(self) -> bool:
         return bool(self.thordata_api_key)
+
+    @property
+    def has_pinecone(self) -> bool:
+        return bool(self.pinecone_api_key)
 
     @property
     def langfuse_active(self) -> bool:

@@ -12,6 +12,7 @@ from ai_research_agent.retrieval.rag import (
     build_rag_chain,
 )
 from ai_research_agent.retrieval.vectorstore import (
+    build_ephemeral_retriever,
     build_vectorstore,
     get_retriever,
     index_knowledge_base,
@@ -23,6 +24,7 @@ __all__ = [
     "HybridRetriever",
     "RagResult",
     "answer_question",
+    "build_ephemeral_retriever",
     "build_hybrid_from_documents",
     "build_rag_chain",
     "build_vectorstore",

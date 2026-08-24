@@ -58,4 +58,4 @@ trade-off before we index these chunks into a vector store next.
 
 ## Next phase
 
-`phase-05` — vector retrieval with a Chroma vector store.
+`phase-05` — vector retrieval with a Pinecone vector store.

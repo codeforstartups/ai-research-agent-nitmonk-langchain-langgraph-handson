@@ -21,9 +21,9 @@ env/
 *.key
 
 # ---- Data & models (kept out of git; .gitkeep preserves folders) ----
+# Note: the vector store is Pinecone (cloud) — nothing local to ignore.
 data/raw/*
 data/processed/*
-data/vectorstore/*
 !data/**/.gitkeep
 
 # ---- Model caches downloaded at runtime (fastembed / flashrank / hf) ----

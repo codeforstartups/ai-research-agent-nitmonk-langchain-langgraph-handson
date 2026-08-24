@@ -7,7 +7,7 @@ from langchain_core.documents import Document
 from ai_research_agent.embeddings import DeterministicEmbeddings
 from ai_research_agent.models import OfflineChatModel
 from ai_research_agent.prompts import format_docs
-from ai_research_agent.retrieval import build_rag_chain, build_vectorstore, get_retriever
+from ai_research_agent.retrieval import build_ephemeral_retriever, build_rag_chain
 
 DOCS = [
     Document(
@@ -28,10 +28,7 @@ def test_format_docs_includes_citations() -> None:
 
 
 def test_rag_chain_returns_answer_and_sources() -> None:
-    retriever = get_retriever(
-        build_vectorstore(DOCS, embeddings=DeterministicEmbeddings(), persist_directory=None),
-        k=2,
-    )
+    retriever = build_ephemeral_retriever(DOCS, embeddings=DeterministicEmbeddings(), k=2)
     chain = build_rag_chain(retriever, model=OfflineChatModel())
     result = chain.invoke("What do enterprise buyers require?")
 

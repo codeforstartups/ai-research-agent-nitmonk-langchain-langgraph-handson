@@ -25,7 +25,7 @@ previous phase exposed.
 | `phase-02` | Structured output | Pydantic-typed model responses | (uses phase-01 deps) |
 | `phase-03` | Embeddings | pluggable embeddings, similarity | fastembed |
 | `phase-04` | Ingestion | loaders, chunking, metadata | langchain-text-splitters, pypdf |
-| `phase-05` | Vector retrieval | Chroma vector store + retriever | langchain-chroma, chromadb |
+| `phase-05` | Vector retrieval | Pinecone vector store + retriever (in-memory double for offline) | langchain-pinecone, pinecone |
 | `phase-06` | RAG pipeline | LCEL retrieve→prompt→generate | (uses existing deps) |
 | `phase-07` | BM25 | keyword/sparse retrieval | rank-bm25 |
 | `phase-08` | Hybrid search | reciprocal-rank fusion | (uses existing deps) |

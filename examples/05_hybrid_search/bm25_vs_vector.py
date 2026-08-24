@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from ai_research_agent.config import get_settings
 from ai_research_agent.ingestion import chunk_documents, load_directory
-from ai_research_agent.retrieval import BM25Retriever, build_vectorstore, get_retriever
+from ai_research_agent.retrieval import BM25Retriever, build_ephemeral_retriever
 from ai_research_agent.utils import console
 
 
@@ -27,7 +27,7 @@ def main() -> None:
     chunks = chunk_documents(load_directory(get_settings().knowledge_dir))
 
     bm25 = BM25Retriever.from_documents(chunks, k=3)
-    vector = get_retriever(build_vectorstore(chunks), k=3)
+    vector = build_ephemeral_retriever(chunks, k=3)
 
     # A query with an exact rare term ("SOC2") plus paraphraseable intent.
     query = "SOC2 compliance requirements"

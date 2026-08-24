@@ -1,11 +1,15 @@
-"""Phase 05 — vector store build + retrieve (in-memory, deterministic)."""
+"""Phase 05 — vector store build + retrieve (in-memory double, deterministic).
+
+The product store is Pinecone (needs a key/network); these tests exercise the
+same ``Retriever`` interface through the offline in-memory double.
+"""
 
 from __future__ import annotations
 
 from langchain_core.documents import Document
 
 from ai_research_agent.embeddings import DeterministicEmbeddings
-from ai_research_agent.retrieval import build_vectorstore, get_retriever
+from ai_research_agent.retrieval import build_ephemeral_retriever
 
 DOCS = [
     Document(
@@ -23,12 +27,12 @@ DOCS = [
 ]
 
 
-def _store():
-    return build_vectorstore(DOCS, embeddings=DeterministicEmbeddings(), persist_directory=None)
+def _retriever(k: int):
+    return build_ephemeral_retriever(DOCS, embeddings=DeterministicEmbeddings(), k=k)
 
 
 def test_retrieve_returns_relevant_chunk_first() -> None:
-    retriever = get_retriever(_store(), k=2)
+    retriever = _retriever(2)
     # DeterministicEmbeddings are lexical, so the query overlaps the target's
     # vocabulary (SOC2 / audit / logs / enterprise buyers require).
     results = retriever.invoke("SOC2 audit logs that enterprise buyers require")
@@ -37,10 +41,9 @@ def test_retrieve_returns_relevant_chunk_first() -> None:
 
 
 def test_retriever_respects_k() -> None:
-    retriever = get_retriever(_store(), k=1)
-    assert len(retriever.invoke("coding tools")) == 1
+    assert len(_retriever(1).invoke("coding tools")) == 1
 
 
 def test_metadata_survives_round_trip() -> None:
-    results = get_retriever(_store(), k=3).invoke("anything")
+    results = _retriever(3).invoke("anything")
     assert all("source" in d.metadata and "chunk" in d.metadata for d in results)

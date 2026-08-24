@@ -23,6 +23,22 @@ app = typer.Typer(
 )
 
 
+def _require_pinecone_or_exit() -> None:
+    """Print a friendly message and exit if the Pinecone key is missing.
+
+    The product retrieval path (ingest/search/rag) uses Pinecone, which needs a
+    key. This keeps the CLI from dumping a raw traceback on camera.
+    """
+    if not get_settings().has_pinecone:
+        console.print(
+            "[yellow]Pinecone is not configured.[/] The product retrieval "
+            "commands (ingest/search/rag) need [cyan]PINECONE_API_KEY[/] in .env.\n"
+            "For a no-key demo of the same concepts, run the examples in "
+            "[cyan]examples/04_rag/[/]."
+        )
+        raise typer.Exit(code=1)
+
+
 @app.command()
 def version() -> None:
     """Print the package version."""
@@ -80,14 +96,14 @@ def plan(
 @app.command()
 def ingest() -> None:
     """Load, chunk, and index the knowledge base into the vector store (Phase 05)."""
-    from ai_research_agent.config import get_settings
     from ai_research_agent.retrieval import index_knowledge_base
 
+    _require_pinecone_or_exit()
     settings = get_settings()
     num_docs, num_chunks = index_knowledge_base()
     console.print(
         f"Indexed [bold]{num_docs}[/] documents → [bold]{num_chunks}[/] chunks into "
-        f"[cyan]{settings.vectorstore_dir}[/] ✓"
+        f"Pinecone index [cyan]{settings.pinecone_index}[/] ✓"
     )
 
 
@@ -99,6 +115,7 @@ def search(
     """Semantic search over the indexed knowledge base (Phase 05)."""
     from ai_research_agent.retrieval import get_retriever, load_vectorstore
 
+    _require_pinecone_or_exit()
     store = load_vectorstore()
     retriever = get_retriever(store, k=k)
     results = retriever.invoke(query)
@@ -120,6 +137,7 @@ def rag(
     """Answer a question with grounded, cited RAG (Phase 06)."""
     from ai_research_agent.retrieval import answer_question
 
+    _require_pinecone_or_exit()
     result = answer_question(question, k=k)
     console.rule("[bold]Answer[/]")
     console.print(result["answer"])
@@ -146,7 +164,7 @@ def doctor() -> None:
     table.add_row("Anthropic model", s.anthropic_model)
     table.add_row("OpenAI model", s.openai_model)
     table.add_row("Google model", s.google_model)
-    table.add_row("Vectorstore dir", str(s.vectorstore_dir))
+    table.add_row("Pinecone index", s.pinecone_index)
     table.add_row("Knowledge dir", str(s.knowledge_dir))
     console.print(table)
 
@@ -160,6 +178,7 @@ def doctor() -> None:
     services.add_row("Anthropic", mark(s.has_anthropic))
     services.add_row("OpenAI", mark(s.has_openai))
     services.add_row("Google", mark(s.has_google))
+    services.add_row("Pinecone", mark(s.has_pinecone))
     services.add_row("Thordata", mark(s.has_thordata))
     services.add_row("Langfuse", mark(s.langfuse_active))
     console.print(services)

@@ -4,7 +4,8 @@ Run:
     uv run python examples/04_rag/vector_search.py
 
 Teaches:
-* persisting embeddings in a vector DB (Chroma) instead of an in-memory loop,
+* persisting embeddings in a vector DB (Pinecone in production) instead of an
+  in-memory loop — this demo uses the offline in-memory double,
 * the LangChain ``Retriever`` abstraction (``.invoke(query)`` → documents),
 * traceable results (each hit still carries ``source`` + ``chunk``).
 """
@@ -13,7 +14,7 @@ from __future__ import annotations
 
 from ai_research_agent.config import get_settings
 from ai_research_agent.ingestion import chunk_documents, load_directory
-from ai_research_agent.retrieval import build_vectorstore, get_retriever
+from ai_research_agent.retrieval import build_ephemeral_retriever
 from ai_research_agent.utils import console
 
 QUERY = "What do enterprise buyers require before adopting an AI coding agent?"
@@ -22,13 +23,12 @@ QUERY = "What do enterprise buyers require before adopting an AI coding agent?"
 def main() -> None:
     settings = get_settings()
 
-    # Build an in-memory index for the demo (no disk writes).
+    # Build a no-key in-memory index for the demo. The product CLI
+    # (research-agent ingest/search) uses the persistent Pinecone index instead.
     documents = load_directory(settings.knowledge_dir)
     chunks = chunk_documents(documents)
-    store = build_vectorstore(chunks)  # persist_directory=None -> ephemeral
-    console.print(f"Indexed {len(chunks)} chunks into an in-memory Chroma store.\n")
-
-    retriever = get_retriever(store, k=3)
+    retriever = build_ephemeral_retriever(chunks, k=3)
+    console.print(f"Indexed {len(chunks)} chunks into an in-memory store.\n")
     console.rule("[bold]Top 3 retrieved chunks[/]")
     console.print(f"Query: [italic]{QUERY}[/]\n")
     for i, doc in enumerate(retriever.invoke(QUERY), 1):

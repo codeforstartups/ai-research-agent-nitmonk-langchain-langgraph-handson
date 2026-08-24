@@ -28,13 +28,16 @@ dependencies = [
     # ---- phase-04: ingestion & chunking ---------------------------------------
     "langchain-text-splitters>=0.3.0",
     "pypdf>=4.2",
-    # ---- phase-05: vector store -----------------------------------------------
-    "langchain-chroma>=0.1.4",
-    "chromadb>=0.5.0",
+    # ---- phase-05: vector store (Pinecone, serverless) ------------------------
+    "langchain-pinecone>=0.2.0",
+    "pinecone>=5.0.0",
     # ---- phase-07: bm25 sparse retrieval --------------------------------------
     "rank-bm25>=0.2.2",
     # ---- phase-09: reranking --------------------------------------------------
     "flashrank>=0.2.9",
+    # ---- phase-10: ragas evaluation -------------------------------------------
+    "ragas>=0.2.0",
+    "datasets>=2.19",
 ]
 
 [project.optional-dependencies]

@@ -71,8 +71,11 @@ def build_hybrid_from_documents(
     which RRF then fuses down to the final ``k``.
     """
     from ai_research_agent.retrieval.bm25 import BM25Retriever
-    from ai_research_agent.retrieval.vectorstore import build_vectorstore, get_retriever
+    from ai_research_agent.retrieval.vectorstore import build_ephemeral_retriever
 
-    vector = get_retriever(build_vectorstore(chunks), k=per_retriever_k)
+    # Builds throwaway in-memory indexes over the given chunks (no Pinecone key
+    # needed). The production hybrid path pairs a Pinecone vector retriever with
+    # a BM25 built from the same corpus.
+    vector = build_ephemeral_retriever(chunks, k=per_retriever_k)
     bm25 = BM25Retriever.from_documents(chunks, k=per_retriever_k)
     return HybridRetriever(retrievers=[vector, bm25], k=k)

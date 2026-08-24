@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from ai_research_agent.config import get_settings
 from ai_research_agent.ingestion import chunk_documents, load_directory
-from ai_research_agent.retrieval import build_rag_chain, build_vectorstore, get_retriever
+from ai_research_agent.retrieval import build_ephemeral_retriever, build_rag_chain
 from ai_research_agent.utils import console
 
 QUESTION = "Should an enterprise startup enter the AI coding-agent market? Summarise the case."
@@ -22,7 +22,7 @@ QUESTION = "Should an enterprise startup enter the AI coding-agent market? Summa
 def main() -> None:
     settings = get_settings()
     chunks = chunk_documents(load_directory(settings.knowledge_dir))
-    retriever = get_retriever(build_vectorstore(chunks), k=4)
+    retriever = build_ephemeral_retriever(chunks, k=4)
 
     chain = build_rag_chain(retriever)
     result = chain.invoke(QUESTION)
