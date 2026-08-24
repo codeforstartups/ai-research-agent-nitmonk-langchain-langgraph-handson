@@ -23,4 +23,7 @@ class ResearchState(TypedDict, total=False):
     # `add` reducer: every node that returns evidence appends to the list.
     evidence: Annotated[list[str], operator.add]
     sources: Annotated[list[str], operator.add]
+    analysis: str
+    # No reducer: last write wins (a simple counter, incremented in a cycle).
+    iterations: int
     answer: str
