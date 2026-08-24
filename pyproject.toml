@@ -17,6 +17,11 @@ dependencies = [
     "pydantic-settings>=2.3",
     "rich>=13.7",
     "typer>=0.12",
+    # ---- phase-01: pluggable chat models -------------------------------------
+    "langchain-core>=0.3.0",
+    "langchain-anthropic>=0.2.0",
+    "langchain-openai>=0.2.0",
+    "langchain-google-genai>=2.0.0",
 ]
 
 [project.optional-dependencies]

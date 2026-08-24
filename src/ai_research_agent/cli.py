@@ -30,6 +30,31 @@ def version() -> None:
 
 
 @app.command()
+def ask(
+    prompt: str = typer.Argument(..., help="A question to send to the model."),
+    stream: bool = typer.Option(False, "--stream", help="Stream tokens as they arrive."),
+) -> None:
+    """Send a single prompt to the configured chat model (Phase 01)."""
+    from langchain_core.messages import HumanMessage, SystemMessage
+
+    from ai_research_agent.models import get_chat_model
+
+    model = get_chat_model()
+    messages = [
+        SystemMessage("You are a concise, precise research analyst."),
+        HumanMessage(prompt),
+    ]
+
+    if stream:
+        for chunk in model.stream(messages):
+            console.print(chunk.text, end="")
+        console.print()
+    else:
+        response = model.invoke(messages)
+        console.print(response.text)
+
+
+@app.command()
 def doctor() -> None:
     """Show resolved configuration and which live services are available.
 
